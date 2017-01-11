@@ -46,22 +46,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that
-      // something has changed in this State, which causes it to rerun
-      // the build method below so that the display can reflect the
-      // updated values. If we changed _counter without calling
-      // setState(), then the build method would not be called again,
-      // and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   bool switchValue = false;
   double sliderValue = 0.25;
+  bool animating = true;
 
   @override
   Widget build(BuildContext context) {
@@ -81,17 +68,26 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
                 switchValue = newValue;
               });
-            }
+            },
           ),
           new CupertinoSlider(
             value: sliderValue,
             onChanged: (double newValue) {
               setState(() {
-                sliderValue = newValue,
+                sliderValue = newValue;
               });
             },
           ),
-          new CupertinoActivityIndicator(),
+          new GestureDetector(
+            onTap: () {
+              setState(() {
+                animating = !animating;
+              });
+            },
+            child: new CupertinoActivityIndicator(
+              animating: animating,
+            ),
+          ),
           new RaisedButton(
             child: new Text('Show dialog'),
             onPressed: () {
